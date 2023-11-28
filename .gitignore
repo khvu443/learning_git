@@ -4,3 +4,4 @@ logs/
 main.log
 # ignore all .log files
 *.log
+bin/
