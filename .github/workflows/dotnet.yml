@@ -14,7 +14,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-  
+
     steps:
     - uses: actions/checkout@v3
 
@@ -24,10 +24,10 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restore dependencies
-      run: dotnet restore ./Quan ly moi truong_Web/Quan ly moi truong_Web.sln
+      run: dotnet restore ./Quan_ly_moi_truong_Web/Quan_ly_moi_truong_Web.sln
 
     - name: Build
-      run: dotnet build ./Quan ly moi truong_Web/Quan ly moi truong_Web.sln --no-restore
+      run: dotnet build ./Quan_ly_moi_truong_Web/Quan_ly_moi_truong_Web.sln --no-restore
       
     - name: Publish
-      run: dotnet publish ./Quan ly moi truong_Web/Quan ly moi truong_Web.sln --configuration Release --no-build
+      run: dotnet publish ./Quan_ly_moi_truong_Web/Quan_ly_moi_truong_Web.sln --configuration Release --no-build
