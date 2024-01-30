@@ -46,7 +46,7 @@ namespace API.Controllers
                 trees.Add(mapper.Map<ListTreeResponse>(tree));
             }
 
-            return Ok(trees);
+            return Ok("Hello");
         }
 
         [HttpGet("{TreeId}")]
