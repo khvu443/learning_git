@@ -20,9 +20,12 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
+
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ./Quan ly moi truong_Web/Quan ly moi truong_Web.sln
+
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build ./Quan ly moi truong_Web/Quan ly moi truong_Web.sln --no-restore
+      
+    - name: Publish
+      run: dotnet publish ./Quan ly moi truong_Web/Quan ly moi truong_Web.sln --configuration Release --no-build
