@@ -9,11 +9,16 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+env:
+  MsDeployProfileName: testing
+  DeploymentPassword: urban-sanitation.southeastasia.cloudapp.azure.com:8172
   
 
 jobs:
+
+  #Deploy VM in azure
   publish:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -30,4 +35,4 @@ jobs:
       run: dotnet build ./Quan_ly_moi_truong_Web/Quan_ly_moi_truong_Web.sln --no-restore
       
     - name: Publish
-      run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj 
+      run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj /p:PublishProfile=UrbanSanitationServer /p:Password=Urbansanitation357
