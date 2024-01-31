@@ -46,7 +46,7 @@ jobs:
     - name: Install SSH.NET
       run: |
         dotnet nuget locals all --clear
-        dotnet tool install --global SSH.NET --ignore-failed-sources
+        dotnet tool install --global SSH.NET --version 2023.0.0
       
     - name: Deploy to Azure VM
       run: |
