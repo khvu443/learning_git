@@ -43,9 +43,9 @@ jobs:
           name: published-files
           path: ./publish
 
-    - name: Install SSH.NET
-      run: |
-        dotnet tool install --global SSH.NET
+    # - name: Install SSH.NET
+    #   run: |
+    #     dotnet tool install --global SSH.NET
       
     - name: Deploy to Azure VM
       run: |
