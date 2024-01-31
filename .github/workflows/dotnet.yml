@@ -45,7 +45,7 @@ jobs:
 
     - name: Install SSH.NET
       run: |
-        dotnet tool install -g SSH.NET --version 6 --tool-path ./.tools
+        dotnet tool install --global SSH.NET --version 6
       
     - name: Deploy to Azure VM
       run: |
