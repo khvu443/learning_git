@@ -47,7 +47,7 @@ jobs:
       run: |
         dotnet nuget locals all --clear
 
-        icacls "C:\Users\runner***min.dotnet\tools.store\ssh.net\2023.0.1\ssh.net\2023.0.1\tools" /grant Users:F
+        icacls "C:\Users\runner***min.dotnet\tools.store\ssh.net\2023.0.0\ssh.net\2023.0.0\tools" /grant Users:F
         dotnet tool install --global SSH.NET --version 2023.0.0
       
     - name: Deploy to Azure VM
