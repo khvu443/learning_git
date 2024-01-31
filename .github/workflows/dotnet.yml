@@ -24,7 +24,7 @@ jobs:
       
     - name: Restore NuGet packages
       run: |
-            cd ${{ github.workspace }}/Quan_ly_moi_truong_Web/API
+            cd ${{ github.workspace }}/Quan_ly_moi_truong_Web
             nuget restore
 
     - name: Build API
