@@ -27,8 +27,10 @@ jobs:
 
     - name: Build API
       run: |
-          $msbuildPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\Installer" -Recurse -Filter "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1 -ExpandProperty FullName
-          & $msbuildPath /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
+          $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
+          $msbuildExe = Join-Path -Path $msbuildPath -ChildPath "MSBuild\Current\Bin\MSBuild.exe"
+          echo "MSBuild Path: $msbuildExe"
+          & $msbuildExe /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
 
     - name: Publish API
       run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj -c Release -o ./publish
