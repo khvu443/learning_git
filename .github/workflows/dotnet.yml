@@ -27,7 +27,7 @@ jobs:
             echo "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
             
     - name: connect and pull
-      run: ssh "cd ${{ secrets.WORK_DIR }} && git checkout main && git pull && exit"
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout ${{ secrets.MAIN_BRANCH }} && git pull && exit"
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
