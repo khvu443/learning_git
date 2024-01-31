@@ -12,7 +12,8 @@ on:
   
 
 jobs:
-  publish:
+  run-pull:
+    name: run pull
     runs-on: windows-latest
 
     steps:
