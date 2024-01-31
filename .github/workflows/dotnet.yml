@@ -45,8 +45,8 @@ jobs:
 
     - name: Install SSH.NET
       run: |
-        dotnet tool install -g SSH.NET
-        
+        dotnet tool install -g SSH.NET --version 6 --tool-path ./.tools
+      
     - name: Deploy to Azure VM
       run: |
         dotnet ssh execute --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --script "mkdir C:\inetpub\wwwroot\urban-be"
