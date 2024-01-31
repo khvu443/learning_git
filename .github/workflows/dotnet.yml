@@ -26,7 +26,7 @@ jobs:
     #   run: nuget restore
 
     - name: Build API
-      run: ${{ env.MSBUILD_PATH }}/MSBuild.exe /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
+      run: ${{ env.MSBUILD_PATH }}\MSBuild.exe /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
 
     - name: Publish API
       run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj -c Release -o ./publish
