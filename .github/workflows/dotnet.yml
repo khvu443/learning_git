@@ -42,7 +42,7 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USERNAME }}
-        password: ${{ secrets.VM_PASSWORD }}
+        password: ${{ secrets.SSH_PASSWORD }}
         source: ./publish
         target: 'C:\inetpub\wwwroot\urban-be'
 
@@ -51,6 +51,6 @@ jobs:
       with:
         host: ${{ secrets.VM_HOST }}
         username: ${{ secrets.VM_USERNAME }}
-        password: ${{ secrets.VM_PASSWORD }}
+        password: ${{ secrets.SSH_PASSWORD }}
         script: |
           iisreset /restart
