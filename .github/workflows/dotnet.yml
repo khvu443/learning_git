@@ -46,8 +46,8 @@ jobs:
     - name: Install SSH.NET
       run: |
         dotnet nuget locals all --clear
-        (Get-ChildItem -Path C:\Users\ -Directory -Filter "*runner*" | Select-Object -ExpandProperty FullName)
-        icacls (Get-ChildItem -Path C:\Users\ -Directory -Filter "*runner*" | Select-Object -ExpandProperty FullName)  /grant Users:F
+        Get-ChildItem -Path C:\Users\ -Directory -Filter "*runner*" | Select-Object -ExpandProperty FullName | ForEach-Object { Join-Path $_ "tools.store\ssh.net\2023.0.0\ssh.net\2023.0.0\tools" }
+        icacls Get-ChildItem -Path C:\Users\ -Directory -Filter "*runner*" | Select-Object -ExpandProperty FullName | ForEach-Object { Join-Path $_ "tools.store\ssh.net\2023.0.0\ssh.net\2023.0.0\tools" }  /grant Users:F
         dotnet tool install --global SSH.NET --version 2023.0.0
       
     - name: Deploy to Azure VM
