@@ -26,7 +26,9 @@ jobs:
     #   run: nuget restore
 
     - name: Build API
-      run: ${{ env.MSBUILD_PATH }}\MSBuild.exe /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
+      run: |
+          $msbuildPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\Installer" -Recurse -Filter "MSBuild\**\Bin\MSBuild.exe" | Select-Object -First 1 -ExpandProperty FullName
+          & $msbuildPath /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
 
     - name: Publish API
       run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj -c Release -o ./publish
