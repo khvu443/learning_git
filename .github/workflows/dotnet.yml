@@ -19,14 +19,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.0.0
+    # - name: Setup MSBuild
+    #   uses: microsoft/setup-msbuild@v1.0.0
       
     # - name: Restore NuGet packages
     #   run: nuget restore
 
     - name: Build API
-      run: msbuild.exe /p:Configuration=Release ./Quan_ly_moi_truong_Web/API/API.csproj
+      run: ${{ env.MSBUILD_PATH }}/MSBuild.exe /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
 
     - name: Publish API
       run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj -c Release -o ./publish
