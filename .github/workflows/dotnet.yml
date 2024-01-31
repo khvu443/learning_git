@@ -23,6 +23,10 @@ jobs:
             install -m 600 -D /dev/null ~/.ssh/id_rsa
             echo "${{secrets.SSH_PRIVATE_KEY}}" > ~..ssh/id_rsa
             ssh-keyscan -H ${{secrets.SSH_PRIVATE_KEY}} > ~/.ssh/know_hosts
+            
+    - name: connect and pull
+      run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && git checkout main && git pull && exit"
+      
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -36,5 +40,3 @@ jobs:
       
     - name: Publish
       run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
-      
-    - name: connect and pull
