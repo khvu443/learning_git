@@ -18,17 +18,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Create SSH key
+    - name: install SSH key
       run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_PRIVATE_KEY" > ../private.key
-          sudo chmod 600 ../private.key
-          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-      shell: bash
-      env: 
-          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
-          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+            install -m 600 -D /dev/null ~/.ssh/id_rsa
+            echo "${{secrets.SSH_PRIVATE_KEY}}" > ~..ssh/id_rsa
+            ssh-keyscan -H ${{secrets.SSH_PRIVATE_KEY}} > ~/.ssh/know_hosts
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -42,3 +36,5 @@ jobs:
       
     - name: Publish
       run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
+      
+    - name: connect and pull
