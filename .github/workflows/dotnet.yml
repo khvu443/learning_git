@@ -45,6 +45,7 @@ jobs:
 
     - name: Install SSH.NET
       run: |
+        dotnet nuget locals all --clear
         dotnet tool install --global SSH.NET
       
     - name: Deploy to Azure VM
