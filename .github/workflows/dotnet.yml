@@ -23,7 +23,7 @@ jobs:
       run: |
             mkdir -p ~/.ssh/
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ../private.key
-            sudo chmod 600 ../private.key
+            chmod 600 ../private.key
             echo "${{ secrets.SSH_HOST }}" > ~/.ssh/known_hosts
             
     - name: connect and pull
