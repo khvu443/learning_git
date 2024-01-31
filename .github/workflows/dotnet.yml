@@ -52,6 +52,6 @@ jobs:
         dotnet ssh execute --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --script "mkdir C:\inetpub\wwwroot\urban-be"
         dotnet ssh upload --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --local ./publish --remote C:\inetpub\wwwroot\urban-be
   
-      - name: Restart IIS on Azure VM
-        run: |
+    - name: Restart IIS on Azure VM
+      run: |
         dotnet ssh execute --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --script "iisreset"
