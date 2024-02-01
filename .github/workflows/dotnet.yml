@@ -31,7 +31,7 @@ jobs:
 
       - name: List publish folder contents
         run: |
-            ls -R ${{ github.workspace }}\Quan_ly_moi_truong_Web\API
+            ls -R ${{ github.workspace }}
 
       - name: Install SSH client
         run: |
