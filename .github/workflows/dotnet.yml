@@ -58,8 +58,9 @@ jobs:
           $password = "${{ secrets.AZURE_VM_PASSWORD }}"
           $sourcePath = "${{ github.workspace }}\publish"
           $destinationPath = "${{ secrets.AZURE_VM_IP }}\C$\inetpub\wwwroot\urban-be"
+          $networkPath = Join-Path "\\${{ secrets.AZURE_VM_IP }}" "$destinationPath"
           $cmd = "net use $destinationPath /user:$username $password"
           Invoke-Expression -Command $cmd
-          Copy-Item -Path "$sourcePath\*" -Destination "\\$destinationPath" -Recurse -Force
+          Copy-Item -Path "$sourcePath\*" -Destination $networkPath -Recurse -Force
           $cmd = "net use $destinationPath /delete"
           Invoke-Expression -Command $cmd
