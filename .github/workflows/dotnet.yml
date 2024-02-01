@@ -58,9 +58,8 @@ jobs:
           $password = "${{ secrets.AZURE_VM_PASSWORD }}"
           $sourcePath = "${{ github.workspace }}\publish"
           $destinationPath = "\\${{ secrets.AZURE_VM_IP }}\C$\inetpub\wwwroot\urban-be"
-          $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
-          $credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username, $securePassword
-          New-Item -ItemType Directory -Path $destinationPath -Credential $credentials -Force | Out-Null
-          New-PSDrive -Name "TempDrive" -PSProvider "FileSystem" -Root "\\" -Credential $credentials | Out-Null
-          Copy-Item -Path "$sourcePath\*" -Destination "TempDrive$destinationPath" -Recurse -Force
-          Remove-PSDrive -Name "TempDrive"
+          $cmd = "net use $destinationPath /user:$username $password"
+          Invoke-Expression -Command $cmd
+          Copy-Item -Path "$sourcePath\*" -Destination $destinationPath -Recurse -Force
+          $cmd = "net use $destinationPath /delete"
+          Invoke-Expression -Command $cmd
