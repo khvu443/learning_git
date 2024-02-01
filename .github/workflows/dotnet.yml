@@ -30,16 +30,12 @@ jobs:
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
       - name: Deploy to Azure VM
-        uses: azure/login@v1
+        uses: appleboy/ssh-action@master
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Copy files to Azure VM
-        uses: azure/ssh-run-command@v1
-        with:
-          ssh-host: ${{ secrets.AZURE_VM_IP }}
-          ssh-username: ${{ secrets.AZURE_VM_USERNAME }}
-          ssh-password: ${{ secrets.AZURE_VM_PASSWORD }}
-          run: |
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          password: ${{ secrets.AZURE_VM_PASSWORD }}
+          port: 22
+          script: |
             mkdir -p /var/www/myapp
             scp -r ./publish/* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/var/www/myapp/
