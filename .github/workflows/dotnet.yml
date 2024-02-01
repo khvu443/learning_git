@@ -31,7 +31,7 @@ jobs:
 
       - name: List publish folder contents
         run: |
-            ls -R ${{ github.workspace }}
+            ls ${{ github.workspace }}\publish
 
       - name: Install SSH client
         run: |
