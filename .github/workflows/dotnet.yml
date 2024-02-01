@@ -36,10 +36,5 @@ jobs:
       - name: Deploy to Azure VM
         run: |
           echo "${{ secrets.SSH_PRIVATE_KEY }} > ssh_key.ppk"
-          echo "Host azure-vm" >> ssh_config
-          echo "  HostName ${{ secrets.AZURE_VM_IP }}" >> ssh_config
-          echo "  User ${{ secrets.AZURE_VM_USERNAME }}" >> ssh_config
-          echo "  IdentityFile ssh_key.ppk" >> ssh_config
-          echo "  StrictHostKeyChecking no" >> ssh_config
-          echo "  LogLevel ERROR" >> ssh_config
-          scp -F ssh_config -r ./publish/* azure-vm:C:\inetpub\wwwroot\urban-be
+          echo "puttygen ssh_key.ppk -o ssh_key.pem -O private"
+          echo "pscp -r -i ssh_key.pem ./publish user@${{ secrets.AZURE_VM_IP }}:C:\inetpub\wwwroot\urban-be"
