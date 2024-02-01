@@ -30,13 +30,11 @@ jobs:
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
       - name: Deploy to Azure VM
-        uses: appleboy/winrm@v1
+        uses: microsoft/rdp-action@v2
         with:
-          host: ${{ secrets.AZURE_VM_IP }}
+          hostname: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
           password: ${{ secrets.AZURE_VM_PASSWORD }}
-          port: 5986
           script: |
-            $session = New-PSSession -ComputerName $env:HOST -Credential (Get-Credential -UserName $env:AZURE_VM_USERNAME -Password $env:AZURE_VM_PASSWORD)
-            Copy-Item -Path ./publish/* -Destination "C:\inetpub\wwwroot\urban-be" -Recurse -ToSession $session
-            Remove-PSSession $session
+            mkdir C:\inetpub\wwwroot\urban-be
+            Copy-Item -Path ./publish/* -Destination C:\inetpub\wwwroot\urban-be -Recurse
