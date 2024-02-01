@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
           password: ${{ secrets.AZURE_VM_PASSWORD }}
-          port: 3389
+          port: 22
           script: |
             mkdir -p C:\inetpub\wwwroot\urban-be
             sshpass -p ${{ secrets.AZURE_VM_PASSWORD }} scp -r -o StrictHostKeyChecking=no ./publish/* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:C:\inetpub\wwwroot\urban-be
