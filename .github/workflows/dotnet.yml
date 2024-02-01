@@ -29,6 +29,10 @@ jobs:
           dotnet build ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
+      - name: List publish folder contents
+        run: |
+            ls -R ${{ github.workspace }}\Quan_ly_moi_truong_Web\API
+
       - name: Install SSH client
         run: |
           choco install -y putty
