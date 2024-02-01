@@ -14,47 +14,32 @@ on:
 jobs:
   deploy:
     runs-on: windows-latest
-
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    # - name: Setup MSBuild
-    #   uses: microsoft/setup-msbuild@v1.0.0
-      
-    - name: Restore NuGet packages
-      run: |
-            cd ${{ github.workspace }}/Quan_ly_moi_truong_Web
-            nuget restore
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Build API
-      run: |
-          $msbuildPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.Component.MSBuild -property installationPath
-          $msbuildExe = Join-Path -Path $msbuildPath -ChildPath "MSBuild\Current\Bin\MSBuild.exe"
-          echo "MSBuild Path: $msbuildExe"
-          & $msbuildExe /p:Configuration=Release  ./Quan_ly_moi_truong_Web/API/API.csproj
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x' # Replace with your desired .NET version
 
-    - name: Publish API
-      run: dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj -c Release -o ./publish
+      - name: Build and Publish
+        run: |
+          dotnet build --configuration Release
+          dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-          name: published-files
-          path: ./publish
+      - name: Deploy to Azure VM
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Install SSH.NET
-      run: |
-        dotnet nuget locals all --clear
-        Get-ChildItem -Path C:\Users\ -Directory -Filter "*runner*" | Select-Object -ExpandProperty FullName | ForEach-Object { Join-Path $_ "tools.store\ssh.net\2023.0.0\ssh.net\2023.0.0\tools" }
-        icacls Get-ChildItem -Path C:\Users\ -Directory -Filter "*runner*" | Select-Object -ExpandProperty FullName | ForEach-Object { Join-Path $_"tools.store\ssh.net\2023.0.0\ssh.net\2023.0.0\tools" }  /grant Users:F
-        dotnet tool install --global SSH.NET --version 2023.0.0
-      
-    - name: Deploy to Azure VM
-      run: |
-        dotnet ssh execute --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --script "mkdir C:\inetpub\wwwroot\urban-be"
-        dotnet ssh upload --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --local ./publish --remote C:\inetpub\wwwroot\urban-be
-  
-    - name: Restart IIS on Azure VM
-      run: |
-        dotnet ssh execute --host ${{ secrets.VM_HOST }} --username ${{ secrets.VM_USERNAME }} --password ${{ secrets.SSH_PASSWORD }} --script "iisreset"
+      - name: Copy files to Azure VM
+        uses: azure/ssh-run-command@v1
+        with:
+          ssh-host: ${{ secrets.AZURE_VM_IP }}
+          ssh-username: ${{ secrets.AZURE_VM_USERNAME }}
+          ssh-password: ${{ secrets.AZURE_VM_PASSWORD }}
+          run: |
+            mkdir -p /var/www/myapp
+            scp -r ./publish/* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/var/www/myapp/
