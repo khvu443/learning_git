@@ -57,7 +57,7 @@ jobs:
           $username = "${{ secrets.AZURE_VM_USERNAME }}"
           $password = "${{ secrets.AZURE_VM_PASSWORD }}"
           $sourcePath = "${{ github.workspace }}\publish"
-          $destinationPath = "\\${{ secrets.AZURE_VM_IP }}\C$\inetpub\wwwroot\urban-be"
+          $destinationPath = "${{ secrets.AZURE_VM_IP }}\C$\inetpub\wwwroot\urban-be"
           $cmd = "net use $destinationPath /user:$username $password"
           Invoke-Expression -Command $cmd
           Copy-Item -Path "$sourcePath\*" -Destination $destinationPath -Recurse -Force
