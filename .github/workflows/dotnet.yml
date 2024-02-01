@@ -30,12 +30,13 @@ jobs:
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
       - name: Deploy to Azure VM
-        uses: appleboy/ssh-action@master
+        uses: appleboy/winrm@v1
         with:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
           password: ${{ secrets.AZURE_VM_PASSWORD }}
-          port: 22
+          port: 5986
           script: |
-            mkdir -p /var/www/myapp
-            scp -r ./publish/* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:/var/www/myapp/
+            $session = New-PSSession -ComputerName $env:HOST -Credential (Get-Credential -UserName $env:AZURE_VM_USERNAME -Password $env:AZURE_VM_PASSWORD)
+            Copy-Item -Path ./publish/* -Destination "C:\inetpub\wwwroot\urban-be" -Recurse -ToSession $session
+            Remove-PSSession $session
