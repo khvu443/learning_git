@@ -29,13 +29,17 @@ jobs:
           dotnet build ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
+      - name: Install SSH client
+        run: |
+          choco install -y putty
+
       - name: Deploy to Azure VM
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AZURE_VM_IP }}
-          username: ${{ secrets.AZURE_VM_USERNAME }}
-          password: ${{ secrets.AZURE_VM_PASSWORD }}
-          port: 22
-          script: |
-            mkdir -p C:\inetpub\wwwroot\urban-be
-            sshpass -p ${{ secrets.AZURE_VM_PASSWORD }} scp -r -o StrictHostKeyChecking=no ./publish/* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:C:\inetpub\wwwroot\urban-be
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }} > ssh_key.ppk"
+          echo "Host azure-vm" >> ssh_config
+          echo "  HostName ${{ secrets.AZURE_VM_IP }}" >> ssh_config
+          echo "  User ${{ secrets.AZURE_VM_USERNAME }}" >> ssh_config
+          echo "  IdentityFile ssh_key.ppk" >> ssh_config
+          echo "  StrictHostKeyChecking no" >> ssh_config
+          echo "  LogLevel ERROR" >> ssh_config
+          scp -F ssh_config -r ./publish/* azure-vm:C:\inetpub\wwwroot\urban-be
