@@ -43,11 +43,21 @@ jobs:
       #     echo "puttygen ssh_key.ppk -o ssh_key.pem -O private"
       #     scp -r -i ssh_key.pem ${{ github.workspace }}\publish ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:'C:\inetpub\wwwroot\urban-be'
           
+      # - name: Deploy folder to Windows Server VM
+      #   uses: appleboy/ftp-action@master
+      #   with:
+      #     server: ${{ secrets.AZURE_VM_IP }}
+      #     username: ${{ secrets.AZURE_VM_USERNAME }}
+      #     password: ${{ secrets.AZURE_VM_PASSWORD }}
+      #     local-dir: ${{ github.workspace }}\publish
+      #     remote-dir: C:\inetpub\wwwroot\urban-be
+  
       - name: Deploy folder to Windows Server VM
-        uses: appleboy/ftp-action@master
-        with:
-          server: ${{ secrets.AZURE_VM_IP }}
-          username: ${{ secrets.AZURE_VM_USERNAME }}
-          password: ${{ secrets.AZURE_VM_PASSWORD }}
-          local-dir: ${{ github.workspace }}\publish
-          remote-dir: C:\inetpub\wwwroot\urban-be
+        run: |
+          $username = "${{ secrets.AZURE_VM_USERNAME }}"
+          $password = "${{ secrets.AZURE_VM_PASSWORD }}"
+          $sourcePath = "${{ github.workspace }}\publish"
+          $destinationPath = "C:\inetpub\wwwroot\urban-be"
+          $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
+          $credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username, $securePassword
+          Copy-Item -Path $sourcePath -Destination $destinationPath -Recurse -Force -Credential $credentials
