@@ -44,7 +44,7 @@ jobs:
       #     scp -r -i ssh_key.pem ${{ github.workspace }}\publish ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:'C:\inetpub\wwwroot\urban-be'
           
       - name: Deploy folder to Windows Server VM
-        uses: SamKirkland/FTP-Deploy-Action@4.1.1
+        uses: appleboy/ftp-action@master
         with:
           server: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
