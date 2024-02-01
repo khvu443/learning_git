@@ -57,7 +57,7 @@ jobs:
           $username = "${{ secrets.AZURE_VM_USERNAME }}"
           $password = "${{ secrets.AZURE_VM_PASSWORD }}"
           $sourcePath = "${{ github.workspace }}\publish"
-          $destinationPath = "C:\inetpub\wwwroot\urban-be"
+          $destinationPath = "\\${{ secrets.AZURE_VM_IP }}\C$\inetpub\wwwroot\urban-be"
           $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
           $credentials = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $username, $securePassword
           Copy-Item -Path $sourcePath -Destination $destinationPath -Recurse -Force -Credential $credentials
