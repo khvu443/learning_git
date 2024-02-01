@@ -60,6 +60,11 @@ jobs:
           $destinationPath = "${{ secrets.AZURE_VM_IP }}\C$\inetpub\wwwroot\urban-be"
           $cmd = "net use $destinationPath /user:$username $password"
           Invoke-Expression -Command $cmd
-          Copy-Item -Path "$sourcePath\*" -Destination "\\$destinationPath" -Recurse -Force
+          try {
+            Copy-Item -Path "$sourcePath\*" -Destination $networkPath -Recurse -Force -ErrorAction Stop
+          } catch {
+              Write-Host "Error: $_"
+              exit 1
+          }
           $cmd = "net use $destinationPath /delete"
           Invoke-Expression -Command $cmd
