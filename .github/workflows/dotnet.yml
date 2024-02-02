@@ -29,13 +29,23 @@ jobs:
           dotnet build ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
-      - name: Transfer folder
-        run: |
-          # Install SSH client
-          sudo apt-get update
-          sudo apt-get install -y openssh-client
-          # Transfer the folder using scp
-          scp -r ${{ github.workspace }}\publish ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:C:\inetpub\wwwroot\urban-be
+      - name: Copy files to Azure VM
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ${{ github.workspace }}\publish
+          target: C:\inetpub\wwwroot\urban-be
+  
+      - name: Restart IIS on Azure VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AZURE_VM_IP }}
+          username: ${{ secrets.AZURE_VM_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            iisreset /restart
 
       # - name: List publish folder contents
       #   run: |
