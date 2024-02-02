@@ -35,7 +35,7 @@ jobs:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ${{ github.workspace }}\publish
+          source: ./publish
           target: C:\inetpub\wwwroot\urban-be
   
       - name: Restart IIS on Azure VM
