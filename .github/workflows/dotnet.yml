@@ -13,7 +13,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout repository
@@ -29,17 +29,25 @@ jobs:
           dotnet build ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
           dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release --output ./publish
 
+      - name: Transfer folder
+        run: |
+          # Install SSH client
+          sudo apt-get update
+          sudo apt-get install -y openssh-client
+          # Transfer the folder using scp
+          scp -r ${{ github.workspace }}\publish ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:C:\inetpub\wwwroot\urban-be
+
       # - name: List publish folder contents
       #   run: |
       #       ls ${{ github.workspace }}\publish
 
-      - name: Install SSH client
-        run: |
-          choco install -y putty
+      # - name: Install SSH client
+      #   run: |
+      #     choco install -y putty
 
-      - name: Deploy to Azure VM
-        run: |
-           echo "${{ secrets.SSH_PRIVATE_KEY }} > ssh_key.ppk"
-           echo "puttygen ssh_key.ppk -o ssh_key.pem -O private"
-           echo "scp -r -i ssh_key.pem ${{ github.workspace }}\publish\* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:'C:\inetpub\wwwroot\urban-be'"
+      # - name: Deploy to Azure VM
+      #   run: |
+      #      echo "${{ secrets.SSH_PRIVATE_KEY }} > ssh_key.ppk"
+      #      echo "puttygen ssh_key.ppk -o ssh_key.pem -O private"
+      #      echo "scp -r -i ssh_key.pem ${{ github.workspace }}\publish\* ${{ secrets.AZURE_VM_USERNAME }}@${{ secrets.AZURE_VM_IP }}:'C:\inetpub\wwwroot\urban-be'"
           
