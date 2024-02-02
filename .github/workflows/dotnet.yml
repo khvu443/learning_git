@@ -35,6 +35,7 @@ jobs:
           host: ${{ secrets.AZURE_VM_IP }}
           username: ${{ secrets.AZURE_VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
           source: ./publish
           target: C:\inetpub\wwwroot\urban-be
   
