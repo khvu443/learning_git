@@ -39,14 +39,14 @@ jobs:
           source: ${{ github.workspace }}\publish
           target: C:\inetpub\wwwroot\urban-be
   
-      - name: Restart IIS on Azure VM
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.AZURE_VM_IP }}
-          username: ${{ secrets.AZURE_VM_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            iisreset /restart
+      # - name: Restart IIS on Azure VM
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.AZURE_VM_IP }}
+      #     username: ${{ secrets.AZURE_VM_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     script: |
+      #       iisreset /restart
 
       # - name: List publish folder contents
       #   run: |
