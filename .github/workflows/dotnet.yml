@@ -27,7 +27,7 @@ jobs:
       - name: Build and Publish
         run: |
           dotnet build ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
-          dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release
+          dotnet publish ./Quan_ly_moi_truong_Web/API/API.csproj --configuration Release -o ./publish
           ls
 
       - name: List publish folder contents
@@ -43,7 +43,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           password: ${{secrets.AZURE_VM_PASSWORD}}
           port: 22
-          source: "publish/*"
+          source: "publish/**"
           target: C:\inetpub\wwwroot\urban-be
   
       # - name: Restart IIS on Azure VM
