@@ -43,7 +43,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           password: ${{secrets.AZURE_VM_PASSWORD}}
           port: 22
-          source: ./publish
+          source: .
           target: C:\inetpub\wwwroot\urban-be
   
       # - name: Restart IIS on Azure VM
