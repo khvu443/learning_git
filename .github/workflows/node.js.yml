@@ -29,6 +29,7 @@ jobs:
       - name: Build React app
         run: | 
           cd environment-app
+          npm cache clean --force
           npm i
           npm run build
         
