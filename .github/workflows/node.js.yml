@@ -43,6 +43,7 @@ jobs:
           port: 22
           source: "./environment-app/build/**"
           target: C:\inetpub\wwwroot\AmbatuGraduate\FE
+          strip_components: 2
           
         
 
