@@ -26,10 +26,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: list build file
+        run: ls
+
       - name: Build React app
         run: | 
           cd ../environment-app
           npm run build
         
-      - name: list build file
-        run: ls
+
