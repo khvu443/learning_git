@@ -31,7 +31,7 @@ jobs:
 
       - name: Build React app
         run: | 
-          cd ../environment-app
+          cd environment-app
           npm run build
         
 
