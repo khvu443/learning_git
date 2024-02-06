@@ -27,7 +27,9 @@ jobs:
         run: npm install
 
       - name: Build React app
-        run: npm run build
+        run: | 
+          cd ../environment-app
+          npm run build
         
       - name: list build file
         run: ls
