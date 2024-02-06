@@ -23,15 +23,13 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install dependencies
-        run: npm install
-
       - name: list build file
         run: ls
 
       - name: Build React app
         run: | 
           cd environment-app
+          npm i
           npm run build
         
 
