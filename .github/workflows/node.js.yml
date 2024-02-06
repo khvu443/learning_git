@@ -26,14 +26,14 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: list build file
-        run: ls
-
       - name: Build React app
         run: | 
           cd environment-app
           npm cache clean --force
           npm i
           npm run build
+
+      - name: list build file
+        run: ls
         
 
